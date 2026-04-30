@@ -1,0 +1,43 @@
+schema_version: 1
+
+context:
+  name: python-doi
+  version: "0.2.0"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/python-doi-${{ version }}.tar.gz
+  sha256: 2e01e56fb319bd219ea8586baa43a1fc794dfe45a83156ac70242c4ce961fd9a
+
+build:
+  number: 2
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - setuptools
+  run:
+    - python >=${{ python_min }}
+
+tests:
+  - python:
+      imports:
+        - doi
+      pip_check: true
+      python_version: ${{ python_min }}
+
+about:
+  summary: Python package to work with Document Object Identifier (doi)
+  license: GPL-3.0-or-later
+  license_file: LICENSE
+  homepage: https://github.com/papis/python-doi
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
